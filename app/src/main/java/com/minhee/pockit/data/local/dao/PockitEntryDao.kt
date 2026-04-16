@@ -48,15 +48,18 @@ interface PockitEntryDao {
     @Query("SELECT * FROM pockit_entry WHERE id = :id")
     suspend fun getEntryById(id: Long): EntryWithTags?
 
-    @Query("SELECT COALESCE(SUM(CASE WHEN realizedPnl > 0 THEN realizedPnl ELSE 0 END), 0) FROM pockit_entry WHERE date BETWEEN :startDate AND :endDate")
+    @Query("SELECT cumulativePnl FROM pockit_entry ORDER BY date DESC, createdAt DESC LIMIT 1")
+    suspend fun getLatestCumulativePnl(): Long?
+
+    @Query("SELECT COALESCE(SUM(CASE WHEN dailyPnl > 0 THEN dailyPnl ELSE 0 END), 0) FROM pockit_entry WHERE date BETWEEN :startDate AND :endDate")
     fun getTotalProfit(startDate: String, endDate: String): Flow<Long>
 
-    @Query("SELECT COALESCE(SUM(CASE WHEN realizedPnl < 0 THEN realizedPnl ELSE 0 END), 0) FROM pockit_entry WHERE date BETWEEN :startDate AND :endDate")
+    @Query("SELECT COALESCE(SUM(CASE WHEN dailyPnl < 0 THEN dailyPnl ELSE 0 END), 0) FROM pockit_entry WHERE date BETWEEN :startDate AND :endDate")
     fun getTotalLoss(startDate: String, endDate: String): Flow<Long>
 
     @Query("SELECT COUNT(*) FROM pockit_entry WHERE date BETWEEN :startDate AND :endDate")
     fun getEntryCount(startDate: String, endDate: String): Flow<Int>
 
-    @Query("SELECT COUNT(*) FROM pockit_entry WHERE realizedPnl > 0 AND date BETWEEN :startDate AND :endDate")
+    @Query("SELECT COUNT(*) FROM pockit_entry WHERE dailyPnl > 0 AND date BETWEEN :startDate AND :endDate")
     fun getWinCount(startDate: String, endDate: String): Flow<Int>
 }

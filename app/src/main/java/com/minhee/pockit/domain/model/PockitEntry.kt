@@ -6,7 +6,8 @@ import java.time.LocalDateTime
 data class PockitEntry(
     val id: Long = 0,
     val date: LocalDate,
-    val realizedPnl: Long,
+    val cumulativePnl: Long,
+    val dailyPnl: Long,
     val stockName: String? = null,
     val memo: String? = null,
     val themeTags: List<Tag> = emptyList(),

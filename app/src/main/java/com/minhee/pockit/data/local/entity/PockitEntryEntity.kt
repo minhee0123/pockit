@@ -10,7 +10,8 @@ data class PockitEntryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val date: LocalDate,
-    val realizedPnl: Long,
+    val cumulativePnl: Long,
+    val dailyPnl: Long,
     val stockName: String? = null,
     val memo: String? = null,
     val createdAt: LocalDateTime = LocalDateTime.now(),

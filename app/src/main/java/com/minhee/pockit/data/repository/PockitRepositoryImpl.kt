@@ -42,6 +42,10 @@ class PockitRepositoryImpl @Inject constructor(
         return entryDao.getEntryById(id)?.toDomain()
     }
 
+    override suspend fun getLatestCumulativePnl(): Long? {
+        return entryDao.getLatestCumulativePnl()
+    }
+
     override suspend fun saveEntry(
         entry: PockitEntry,
         themeTagIds: List<Long>,
@@ -50,7 +54,8 @@ class PockitRepositoryImpl @Inject constructor(
         val now = LocalDateTime.now()
         val entity = PockitEntryEntity(
             date = entry.date,
-            realizedPnl = entry.realizedPnl,
+            cumulativePnl = entry.cumulativePnl,
+            dailyPnl = entry.dailyPnl,
             stockName = entry.stockName,
             memo = entry.memo,
             createdAt = now,
@@ -69,7 +74,8 @@ class PockitRepositoryImpl @Inject constructor(
         val entity = PockitEntryEntity(
             id = entry.id,
             date = entry.date,
-            realizedPnl = entry.realizedPnl,
+            cumulativePnl = entry.cumulativePnl,
+            dailyPnl = entry.dailyPnl,
             stockName = entry.stockName,
             memo = entry.memo,
             createdAt = entry.createdAt,
@@ -87,12 +93,13 @@ class PockitRepositoryImpl @Inject constructor(
             PockitEntryEntity(
                 id = entry.id,
                 date = entry.date,
-                realizedPnl = entry.realizedPnl,
+                cumulativePnl = entry.cumulativePnl,
+                dailyPnl = entry.dailyPnl,
                 stockName = entry.stockName,
                 memo = entry.memo,
                 createdAt = entry.createdAt,
                 updatedAt = entry.updatedAt,
-            )
+            ),
         )
     }
 
@@ -147,7 +154,8 @@ class PockitRepositoryImpl @Inject constructor(
     private fun EntryWithTags.toDomain() = PockitEntry(
         id = entry.id,
         date = entry.date,
-        realizedPnl = entry.realizedPnl,
+        cumulativePnl = entry.cumulativePnl,
+        dailyPnl = entry.dailyPnl,
         stockName = entry.stockName,
         memo = entry.memo,
         themeTags = themeTags.map { Tag(it.id, it.name, it.isDefault) },

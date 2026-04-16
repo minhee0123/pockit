@@ -11,8 +11,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-dependencyResolution {
+dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) // 이 설정을 추가하는 것이 권장됩니다.
     repositories {
         google()
         mavenCentral()

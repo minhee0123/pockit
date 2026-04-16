@@ -10,6 +10,7 @@ interface PockitRepository {
     fun getEntriesByMonth(yearMonth: YearMonth): Flow<List<PockitEntry>>
     fun getEntriesByDate(date: LocalDate): Flow<List<PockitEntry>>
     suspend fun getEntryById(id: Long): PockitEntry?
+    suspend fun getLatestCumulativePnl(): Long?
     suspend fun saveEntry(entry: PockitEntry, themeTagIds: List<Long>, emotionTagIds: List<Long>)
     suspend fun updateEntry(entry: PockitEntry, themeTagIds: List<Long>, emotionTagIds: List<Long>)
     suspend fun deleteEntry(entry: PockitEntry)

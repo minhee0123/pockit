@@ -20,7 +20,7 @@ import com.minhee.pockit.data.local.entity.ThemeTagEntity
         EntryThemeTagCrossRef::class,
         EntryEmotionTagCrossRef::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 @TypeConverters(DateConverters::class)
